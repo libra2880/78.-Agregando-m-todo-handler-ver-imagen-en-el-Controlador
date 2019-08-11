@@ -87,6 +87,7 @@ public class ClienteController {
 		if(id>0) {
 			clienteService.delete(id);
 			flash.addFlashAttribute("success","Cliente Eliminado con éxito");
+			//
 		}
 		
 		return "redirect:/listar";
