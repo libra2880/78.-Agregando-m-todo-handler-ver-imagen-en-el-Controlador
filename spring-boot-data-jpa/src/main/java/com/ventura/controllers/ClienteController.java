@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ventura.models.entity.Cliente;
 import com.ventura.models.service.IClienteService;
+import com.ventura.util.paginator.PageRender;
 
 @Controller
 @SessionAttributes("cliente")
@@ -38,12 +39,17 @@ public class ClienteController {
 	@RequestMapping(value="/listar",method = RequestMethod.GET)
 	public String Listar(@RequestParam(name="page",defaultValue = "0") int page, Model model) {
 		
-		Pageable pageRequest= PageRequest.of(page, 4);
+		Pageable pageRequest= PageRequest.of(page, 5);
+		
 		Page<Cliente> clientes=clienteService.findAll(pageRequest);
 		
+		PageRender<Cliente> pageRender=new PageRender<>("/listar",clientes);
 		model.addAttribute("titulo","Listado de Clientes");
 		model.addAttribute("clientes",clientes);
+		model.addAttribute("page",pageRender);
+		
 		return "listar";
+		
 	}
 	
 	@RequestMapping(value="/form")
