@@ -49,7 +49,7 @@ public class ClienteController {
 		model.addAttribute("page",pageRender);
 		
 		return "listar";
-		
+		//
 	}
 	
 	@RequestMapping(value="/form")
