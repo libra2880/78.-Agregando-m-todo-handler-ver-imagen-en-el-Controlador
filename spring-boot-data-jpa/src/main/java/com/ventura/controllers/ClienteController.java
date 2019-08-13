@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,6 +40,18 @@ public class ClienteController {
 	public ClienteController(IClienteService clienteService) {
 		
 		this.clienteService = clienteService;
+	}
+	
+	@GetMapping(value="/ver/{id}")
+	public String ver(@PathVariable(value="id") Long id, Map<String,Object> model,RedirectAttributes flash) {
+		Cliente cliente=clienteService.findOne(id);
+		if(cliente==null) {
+			flash.addAttribute("error","El cliente no existe en la base3 de datos");
+			return "redirect:/listar";
+		}
+		model.put("cliente", cliente);
+		model.put("titulo", "Detalle cliente"+ cliente.getNombre());
+		return "ver";
 	}
 
 	@RequestMapping(value="/listar",method = RequestMethod.GET)
